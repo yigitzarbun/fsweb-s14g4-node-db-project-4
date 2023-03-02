@@ -51,7 +51,6 @@ async function idyeGoreTarifGetir(tarif_id) {
     for (let k = 0; k < result.adimlar.length; k++) {
       if (miktar[i].adim_sirasi == result.adimlar[k].adim_sirasi) {
         result.adimlar[k].icindekiler.push({
-          adimID: miktar[i].adim_id,
           icindekiler_id: miktar[i].icindekiler_id,
           icindekiler_adi: miktar[i].icindekiler_adi,
           miktar: miktar[i].miktar,
