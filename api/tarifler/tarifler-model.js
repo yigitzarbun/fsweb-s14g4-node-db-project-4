@@ -6,7 +6,7 @@ function find() {
 }
 
 async function idyeGoreTarifGetir(tarif_id) {
-  const tarifler = await db("tarifler");
+  const tarif = await db("tarifler").where("tarifler.id", tarif_id);
   const adimlar = await db("tarifler")
     .leftJoin("adimlar", "tarifler.id", "adimlar.tarifler_id")
     .select("adimlar.id", "adimlar.adim_sirasi", "adimlar.adim_talimati")
@@ -22,28 +22,20 @@ async function idyeGoreTarifGetir(tarif_id) {
     .where("tarifler.id", tarif_id);
 
   const result = {
-    tarif_id: null,
-    tarif_adi: "",
-    kayit_tarihi: "",
-    adimlar: [
-      {
-        adim_id: null,
-        adim_sirasi: null,
-        adim_talimati: "",
-        icindekiler: [],
-      },
-      {
-        adim_id: null,
-        adim_sirasi: null,
-        adim_talimati: "",
-        icindekiler: [
-          { icindekiler_id: null, icindekiler_adi: "", miktar: null },
-          { icindekiler_id: null, icindekiler_adi: "", miktar: null },
-          { icindekiler_id: null, icindekiler_adi: "", miktar: null },
-        ],
-      },
-    ],
+    tarif_id: tarif[0].id,
+    tarif_adi: tarif[0].tarif_adi,
+    kayit_tarihi: tarif[0].kayit_tarihi,
+    adimlar: [],
   };
+
+  const adimlarArray = adimlar.forEach((adim) => {
+    adimItem = {
+      adim_id: adim.id,
+      adim_sirasi: adim.adim_sirasi,
+      adim_talimati: adim.adim_talimati,
+    };
+    result.adimlar.push(adimItem);
+  });
   return result;
 }
 
